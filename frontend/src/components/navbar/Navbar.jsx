@@ -16,6 +16,8 @@ const Navbar = ({ setShowLogin }) => {
     navigate('/')
   }
 
+  console.log(getTotalCartAmount())
+
   return (
     <div className='navbar'>
       <Link to='/'><img className='logo' src={assets.logo} alt="" /></Link>
