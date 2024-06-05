@@ -25,6 +25,7 @@ app.get("/",(req,res)=>{
 //api endpoint
 app.use("/api/food",foodRouter)
 app.use("/images",express.static("uploads"))
+app.use("/api/user",userRouter)
 app.use("/api/cart", cartRouter)
 app.use("/api/order",orderRouter)
 

@@ -8,6 +8,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Placing User Order for Frontend
 const placeOrder = async (req, res) => {
+    
+    const frontend_url = "http://localhost:5173"
 
     try {
         const newOrder = new orderModel({
@@ -21,32 +23,32 @@ const placeOrder = async (req, res) => {
 
         const line_items = req.body.items.map((item) => ({
             price_data: {
-              currency: "inr",
+              currency: "INR",
               product_data: {
                 name: item.name
               },
-              unit_amount: item.price*100*80
+              unit_amount: item.price*100
             },
             quantity: item.quantity
           }))
 
         line_items.push({
             price_data:{
-                currency:"inr",
+                currency:"INR",
                 product_data:{
                     name:"Delivery Charge"
                 },
-                unit_amount: 5*80*100
+                unit_amount: 5*100
             },
             quantity:1
         })
         
           const session = await stripe.checkout.sessions.create({
-            success_url: `http://localhost:5173/verify?success=true&orderId=${newOrder._id}`,
-            cancel_url: `http://localhost:5173/verify?success=false&orderId=${newOrder._id}`,
-            line_items: line_items,
-            mode: 'payment',
-          });
+            line_items:line_items,
+            mode:"payment",
+            success_url:`${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
+            cancel_url:`${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
+          })
       
           res.json({success:true,session_url:session.url});
 
@@ -70,7 +72,9 @@ const listOrders = async (req, res) => {
 // User Orders for Frontend
 const userOrders = async (req, res) => {
     try {
+        console.log(req.body)
         const orders = await orderModel.find({ userId: req.body.userId });
+        console.log(orders)
         res.json({ success: true, data: orders })
     } catch (error) {
         console.log(error);
@@ -79,7 +83,7 @@ const userOrders = async (req, res) => {
 }
 
 const updateStatus = async (req, res) => {
-    console.log(req.body);
+    
     try {
         await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
         res.json({ success: true, message: "Status Updated" })
