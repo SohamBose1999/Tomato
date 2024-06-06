@@ -13,32 +13,46 @@ const Add = ({url}) => {
     name: "",
     description: "",
     price: "",
-    category: "Salad"
+    category: "Salad",
+    image:""
   });
+ const [error , setError]= useState("")
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setData(data => ({ ...data, [name]: value }));
   };
+  const imageHandler = (e) => {
+    const file = e.target.files[0];
+    const maxSize = 16 * 1024;
+
+    if (file.size > maxSize) {
+      setError("Image size must be equal or less than 16KB");
+      return;
+    }
+    setError("");
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setData({ ...data, image: reader.result });
+    };
+    reader.onerror = (error) => {
+      console.log(error);
+    };
+  };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("price", Number(data.price));
-    formData.append("category", data.category);
-    formData.append("image", image);
-
     try {
-      const response = await axios.post(`${url}/api/food/add`, formData);
+      const response = await axios.post(`${url}/api/food/add`, data);
       if (response.data.success) {
         setData({
           name: "",
           description: "",
           price: "",
-          category: "Salad"
+          category: "Salad",
+          image:""
         });
         setImage(false);
         toast.success(response.data.message);
@@ -54,11 +68,11 @@ const Add = ({url}) => {
     <div className='add'>
       <form className='flex-col' onSubmit={onSubmitHandler}>
         <div className="add-image-upload flex-col">
-          <p>Upload Image</p>
+          <p>{'Upload Image' || error}</p>
           <label htmlFor="image">
-            <img src={image ? URL.createObjectURL(image) : assets.upload_area} alt="" />
+            <img src={data.image ?data.image : assets.upload_area} alt="" />
           </label>
-          <input onChange={(e) => setImage(e.target.files[0])} type="file" id='image' hidden required />
+          <input onChange={imageHandler} type="file" id='image' hidden required />
         </div>
         <div className="add-product-name flex-col">
           <p>Product name</p>

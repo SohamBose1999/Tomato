@@ -16,6 +16,8 @@
 .cart-item-details{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 5px;
     color: #555555
 }
 .cart-item-details img {

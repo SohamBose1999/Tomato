@@ -46,7 +46,7 @@ const LoginPopup = ({ setShowLogin }) => {
             }
         } catch (err) {
             console.error("Error during API call:", err);
-            setError("An error occurred. Please try again.");
+            setError(err.response.data.message);
         } finally {
             setLoading(false);
         }
@@ -62,8 +62,9 @@ const LoginPopup = ({ setShowLogin }) => {
                             onClick={() => setShowLogin(false)} 
                             src={assets.cross_icon} 
                             alt="Close" 
-                        />
+                            />
                     </div>
+                            {error && <p className="error">{error}</p>}
                     <div className="login-popup-inputs">
                         {currState === "Login" ? null : <input name='name' onChange={onchangeHandler} value={data.name} type="text" placeholder='Your Name' required />}
                         <input name='email' onChange={onchangeHandler} value={data.email} type="email" placeholder='Your Email' required />
@@ -74,7 +75,7 @@ const LoginPopup = ({ setShowLogin }) => {
                         <input type="checkbox" required />
                         <p>By continuing, I agree to the terms of use and privacy policy</p>
                     </div>
-                    {error && <p className="error">{error}</p>}
+                   
                     {currState === "Login"
                         ? <p>Create a new Account? <span onClick={() => setCurrState("Sign Up")}>Click Here</span></p>
                         : <p>Already have an account? <span onClick={() => setCurrState("Login")}>Login Here</span></p>
