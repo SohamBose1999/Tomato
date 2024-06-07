@@ -3,6 +3,7 @@ import "./PlaceOrder.css";
 import { StoreContext } from '../../context/StoreContext';
 import { food_list } from '../../assets/assets';
 import axios from 'axios';
+import { initializeRazorpay } from '../../payment/razorpay.api';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount,token,food_list, cartItems,url } = useContext(StoreContext); 
@@ -29,27 +30,27 @@ const PlaceOrder = () => {
     event.preventDefault();
     let orderItems = [];
     food_list.forEach((item) => {
-      if (cartItems[item._id] > 0) {
-        let itemInfo = { ...item }; 
-        itemInfo["quantity"] = cartItems[item._id];
-        orderItems.push(itemInfo);
-      }
+    if (cartItems[item._id] > 0) {
+    let itemInfo = { ...item };
+    itemInfo["quantity"] = cartItems[item._id];
+    orderItems.push(itemInfo);
+    }
     });
     let orderData = {
-      address:data,
-      items:orderItems,
-      amount:getTotalCartAmount()+2,
-
-    }
-    let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
+    address: data,
+    items: orderItems,
+    amount: getTotalCartAmount() + 5,
+    };
+    let response = await axios.post(url + "/api/order/place", orderData, {
+    headers: { token },
+    });
     if (response.data.success) {
-      const {session_url} = response.data
-      window.location.replace(session_url)
+    const { order } = response.data;
+    initializeRazorpay(order, url);
+    } else {
+    alert("You need To Login first !!");
     }
-    else{
-      alert("Error")
     }
-  };
 
   return (
     <form onSubmit={placeOrder} className='place-order'>
@@ -81,12 +82,12 @@ const PlaceOrder = () => {
           <hr />
           <div className="cart-total-details">
             <p>Delivery Fee</p>
-            <p>₹{getTotalCartAmount() === 0 ? 0 : 2}</p>
+            <p>₹{getTotalCartAmount() === 0 ? 0 : 5}</p>
           </div>
           <hr />
           <div className="cart-total-details">
             <b>Total</b>
-            <b>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
+            <b>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 5}</b>
           </div>
           <button type='submit'>PROCEED TO PAYMENT</button>
         </div>
