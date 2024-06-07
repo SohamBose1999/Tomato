@@ -55,7 +55,7 @@ razorpay_order_id,
  razorpay_signature,
  });
  }
- res.redirect(`http://localhost:5174`);
+ res.redirect(`https://tomato-murex.vercel.app`);
  } catch (error) {
  res.status(500).send(error);
  }

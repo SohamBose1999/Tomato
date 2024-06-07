@@ -11,10 +11,10 @@ import axios from 'axios';
  handler: function (response) {
  axios.post(`${url}/api/payment/verify`, response)
  .then(() => {
- window.location.href = `http://localhost:5174`;
+ window.location.href = `https://tomato-murex.vercel.app`;
  })
  .catch(() => {
- window.location.href = `http://localhost:5174`;
+ window.location.href = `https://tomato-murex.vercel.app`;
  });
  },
  prefill: {
