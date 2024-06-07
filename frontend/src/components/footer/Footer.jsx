@@ -28,7 +28,7 @@ const Footer = () => {
                 <ul>
                     <li>+91 735101</li>
                     <li>contact@tomato.com</li>
-                    <a href='' target='_blank'>Admin</a>
+                    <a href='https://tomato-admin-theta.vercel.app' target='_blank'>Admin</a>
                 </ul>
             </div>
            </div>
