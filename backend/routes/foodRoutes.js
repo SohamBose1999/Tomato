@@ -1,5 +1,5 @@
 import express from "express"
-import { addFood,listFood,removeFood } from "../controllers/foodcontroller.js"
+import { addFood,listFood,removeFood } from "../controllers/foodController.js"
 
 
 const foodRouter = express.Router()
