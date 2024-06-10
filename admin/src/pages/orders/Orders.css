@@ -26,6 +26,17 @@
     padding: 10px;
     outline:none;
 }
+.refresh-btn{
+    display: flex;
+    padding: 15px;
+    background-color: tomato;
+    color: white;
+    height: 20px;
+    align-items: center;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
 @media(max-width:1000px){
     .order-item{
         font-size: 12px;

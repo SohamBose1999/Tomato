@@ -28,17 +28,16 @@ const Orders = ({ url }) => {
  }
 
 
-
-
-
-
   useEffect(() => {
     fetchAllOrders();
   }, [url]);
 
   return (
     <div className='order add'>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <h3>Order Page</h3>
+      <button className='refresh-btn' onClick={()=> fetchAllOrders()}>Refresh</button>
+      </div>
       <div className='order-list'>
         {orders?.reverse().map((order, index) => (
           <div key={index} className='order-item'>
