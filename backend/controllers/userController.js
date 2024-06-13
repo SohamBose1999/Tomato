@@ -5,7 +5,7 @@ import validator from "validator";
 
 // Create a token for a user
 const createToken = (id) => {
-   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '94d' });
+   return jwt.sign({ id }, process.env.JWT_SECRET);
 }
 
 // Login user
@@ -26,12 +26,12 @@ const loginUser = async (req, res) => {
       }
 
       // Create a token
-      const token = createToken(user._id);
-      return res.status(200).json({ success: true, token });
-
-   } catch (error) {
-      return res.status(500).json({ success: false, message: "Server error" });
-   }
+    const expire = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
+    const token = createToken(user._id, expire, user.name);
+    return res.status(200).json({ success: true, token });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
 }
 
 // Register user
