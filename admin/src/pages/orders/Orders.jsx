@@ -6,16 +6,21 @@ import "./Orders.css"
 
 const Orders = ({ url }) => {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const fetchAllOrders = async () => {
     try {
+      setLoading(true)
       const response = await axios.get(`${url}/api/order/list`);
       if (response.data.success) {
+        setLoading(false)
         setOrders(response.data.data);
       } else {
+        setLoading(false)
         toast.error('Error fetching orders');
       }
     } catch (error) {
+      setLoading(false)
       toast.error('An error occurred while fetching orders');
     }
   };
@@ -38,6 +43,8 @@ const Orders = ({ url }) => {
       <h3>Order Page</h3>
       <button className='refresh-btn' onClick={()=> fetchAllOrders()}>Refresh</button>
       </div>
+      {loading && <h1>Please Wait...</h1>}
+      {!loading && (
       <div className='order-list'>
         {orders?.reverse().map((order, index) => (
           <div key={index} className='order-item'>
@@ -72,7 +79,9 @@ const Orders = ({ url }) => {
 
           </div>
         ))}
+      
       </div>
+  )}
     </div>
   );
 };

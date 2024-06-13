@@ -12,6 +12,7 @@ const StoreContextProvider = (props) => {
     const [food_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
+    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         async function loadData() {
@@ -25,8 +26,15 @@ const StoreContextProvider = (props) => {
     }, [])
 
     const fetchFoodList = async () => {
+        try {
+            setLoading(true)
         const response = await axios.get(url + "/api/food/list");
+        setLoading(false)
         return  setFoodList(response.data.data)
+        }catch (error){
+            setLoading(false)
+            console.log(error)
+        }
     }
 
 
@@ -99,7 +107,8 @@ const StoreContextProvider = (props) => {
         token,
         setToken,
         loadCartData,
-        setCartItems
+        setCartItems,
+        loading
     };
 
     return (
