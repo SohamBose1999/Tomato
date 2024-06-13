@@ -5,7 +5,7 @@ import FoodItem from '../fooditem/FoodItem'
 import gif from "../../assets/delivery boy.gif"
 
 const FoodDisplay = ({category}) => {
-  const {food_list}= useContext(StoreContext)
+  const {food_list, loading}= useContext(StoreContext)
 
   return (
     <div className='food-display' id='food-display'>
