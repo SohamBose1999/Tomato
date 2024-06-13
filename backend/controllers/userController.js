@@ -73,13 +73,14 @@ const registerUser = async (req, res) => {
       const user = await newUser.save();
 
       // Create a token
-      const token = createToken(user._id);
+      const expire = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
+      const token = createToken(user._id, expire, user.name);
+  
       return res.status(201).json({ success: true, token });
-
-   } catch (error) {
+    } catch (error) {
       console.log(error);
       return res.status(500).json({ success: false, message: "Server error" });
-   }
-}
+    }
+  };
 
 export { loginUser, registerUser };
