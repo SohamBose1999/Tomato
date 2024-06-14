@@ -19,7 +19,7 @@ const Navbar = ({ setShowLogin }) => {
 
  // Auto Logout 
  const checkTokenExpiry = () => {
-  const currTime = date.now() /1000
+  const currTime = Date.now() /1000
   if(decode?.expire < currTime){
     logout()
   }else{
