@@ -6,7 +6,7 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    background-color: antiquewhite;
+    background-color: rgb(255, 255, 255);
 }
 
 .navbar .logo {

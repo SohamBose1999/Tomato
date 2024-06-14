@@ -5,6 +5,7 @@
     height: 100%;
     background-color: #00000090;
     display: grid;
+    z-index: 9999;
 }
 .login-popup-container{
     place-self: center;

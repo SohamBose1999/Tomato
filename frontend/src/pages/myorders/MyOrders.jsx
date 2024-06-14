@@ -37,7 +37,7 @@ const MyOrders = () => {
   }, [token]);
   return (
     <div className="my-orders">
-      {loading ? <h2>Orders</h2> : <h2>{decode?.username}'s Orders</h2>}
+      {loading ? <h2>Orders</h2> : <h2>{decode?.user}'s Orders</h2>}
       {loading && (
        <div className="gif-bike-parent">
        <img className="gif-bike" src={gif} alt={'loading...'} />

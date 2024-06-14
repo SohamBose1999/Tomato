@@ -20,16 +20,22 @@ const Navbar = ({ setShowLogin }) => {
  // Auto Logout 
  const checkTokenExpiry = () => {
   const currTime = Date.now() /1000
-  if(decode?.expire < currTime){
+  if(decode?.exp < currTime){
+    console.log(decode.exp , currTime)
     logout()
   }else{
-    const expin = decode?.expire - currTime
+    const expin = decode?.exp - currTime
     setTimeout(logout,expin*1000)
   }
  }
+
  if(token){
   checkTokenExpiry()
  }
+
+
+
+
 
   return (
     <div className='navbar'>

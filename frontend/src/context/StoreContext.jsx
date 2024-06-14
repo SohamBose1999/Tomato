@@ -14,16 +14,7 @@ const StoreContextProvider = (props) => {
     const [token, setToken] = useState("")
     const [loading,setLoading] = useState(false)
 
-    useEffect(() => {
-        async function loadData() {
-            await fetchFoodList();
-            if (localStorage.getItem("token")) {
-                setToken(localStorage.getItem("token"))
-                await loadCartData({ token: localStorage.getItem("token") })
-            }
-        }
-        loadData()
-    }, [])
+
 
     const fetchFoodList = async () => {
         try {
@@ -84,10 +75,17 @@ const StoreContextProvider = (props) => {
         }
         return total;
     };
-    
+    useEffect(() => {
+        async function loadData() {
+            await fetchFoodList();
+            if (localStorage.getItem("token")) {
+                setToken(localStorage.getItem("token"))
+                await loadCartData({ token: localStorage.getItem("token") })
+            }
+        }
+        loadData()
+    }, [])
 
-  
-   
 
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: token });
