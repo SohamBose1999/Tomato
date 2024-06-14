@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 
 // Create a token for a user
-const createToken = (id) => {
-   return jwt.sign({ id }, process.env.JWT_SECRET);
+const createToken = (id, exp , user) => {
+   return jwt.sign({ id , exp , user}, process.env.JWT_SECRET);
 }
 
 // Login user
