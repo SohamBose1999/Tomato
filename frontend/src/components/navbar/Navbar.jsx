@@ -3,17 +3,33 @@ import './Navbar.css'
 import { assets } from '../../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext'
+import {jwtDecode} from "jwt-decode"
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
   const { getTotalCartAmount, token , setToken } = useContext(StoreContext);
   const navigate = useNavigate();
+  const decode = token ? jwtDecode(token) : null
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
     navigate('/')
   }
+
+ // Auto Logout 
+ const checkTokenExpiry = () => {
+  const currTime = date.now() /1000
+  if(decode?.expire < currTime){
+    logout()
+  }else{
+    const expin = decode?.expire - currTime
+    setTimeout(logout,expin*1000)
+  }
+ }
+ if(token){
+  checkTokenExpiry()
+ }
 
   return (
     <div className='navbar'>
